@@ -1,0 +1,38 @@
+{
+  "name": "@dlenroc/wdp",
+  "version": "0.1.0",
+  "description": "Client for Windows/Xbox Device Portal (WDP)",
+  "author": "Corneliu Duplachi",
+  "license": "MIT",
+  "homepage": "https://github.com/dlenroc/node-wdp",
+  "bugs": "https://github.com/dlenroc/node-wdp/issues",
+  "repository": "dlenroc/node-wdp",
+  "keywords": [
+    "IoT",
+    "Xbox",
+    "HoloLens",
+    "Windows Mobile",
+    "Windows Desktop",
+    "Windows Device Portal",
+    "Xbox Device Portal"
+  ],
+  "files": [
+    "src",
+    "dist"
+  ],
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "src/index.ts",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "scripts": {
+    "prepare": "npm run build",
+    "build": "rollup -c"
+  },
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^8.5.0",
+    "rollup": "^2.79.1",
+    "tslib": "^2.4.0"
+  }
+}
