@@ -7,6 +7,28 @@ export type PhysicalControllers = {
   ConnectedControllerCount: number;
 };
 
+export type RemoteInput = {
+  clearAll(): void;
+  keyCodeDown(code: number): void;
+  keyCodeUp(code: number): void;
+  scanCodeDown(code: number): void;
+  scanCodeUp(code: number): void;
+  move(x: number, y: number): void;
+  leftDown(x: number, y: number): void;
+  leftUp(x: number, y: number): void;
+  rightDown(x: number, y: number): void;
+  rightUp(x: number, y: number): void;
+  middleDown(x: number, y: number): void;
+  middleUp(x: number, y: number): void;
+  x1Down(x: number, y: number): void;
+  x1Up(x: number, y: number): void;
+  x2Down(x: number, y: number): void;
+  x2Up(x: number, y: number): void;
+  verticalWheelMove(x: number, y: number, delta: number): void;
+  horizontalWheelMove(x: number, y: number, delta: number): void;
+  disconnect(): void;
+};
+
 export function getPhysicalControllers(ctx: WdpCtx): Promise<PhysicalControllers> {
   return wdpRequest(ctx, 'ext/remoteinput/controllers');
 }
@@ -17,14 +39,12 @@ export async function disconnectPhysicalControllers(ctx: WdpCtx): Promise<void> 
   });
 }
 
-export async function getRemoteInput(ctx: WdpCtx) {
-  const socket = await wdpSocket(ctx, 'ext/remoteinput');
+export async function getRemoteInput(ctx: WdpCtx, options?: { timeout?: number }): Promise<RemoteInput> {
+  const socket = await wdpSocket(ctx, 'ext/remoteinput', options);
 
   function send(data: Uint8Array) {
     if (socket.readyState !== socket.OPEN) {
-      throw new WdpError({
-        Reason: 'Connection to the device is closed, so commands are no longer accepted',
-      });
+      throw new WdpError({ Reason: 'Commands are no longer accepted', Code: 409 });
     }
 
     socket.send(data);

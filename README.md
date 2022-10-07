@@ -48,12 +48,10 @@ import https from 'node:https';
 import { setTimeout as sleep } from 'timers/promises';
 import { WebSocket as NodeWebSocket } from 'ws';
 
-// Configure SSL, Proxy, .etc
-const agent = new https.Agent({ keepAlive: true, rejectUnauthorized: false });
+// Configuration Example: disable SSL verification
+const agent = new https.Agent({ rejectUnauthorized: false });
 const fetch = (url, init) => nodeFetch(url, { ...init, agent });
-const WebSocket = function (url, protocols, options) {
-  return new NodeWebSocket(url, protocols, { ...options, agent });
-};
+const WebSocket = function (url, protocols, options) { return new NodeWebSocket(url, protocols, { ...options, agent }); };
 
 // Create WDP context
 const ctx = {
@@ -63,7 +61,8 @@ const ctx = {
   username: 'auto-xbox',
   password: 'secret',
 
-  // provide implementations if they are not present in the global object
+  // provide implementations if they are missing or need some tweaking
+  // !! make sure fetch, Blob and FormData are compatible with each other !!
   implementations: { fetch, FormData, WebSocket },
 };
 

@@ -1,7 +1,8 @@
 import type { WdpCtx } from '../WdpCtx.js';
 import { WdpError } from '../WdpError.js';
+import { getWebSocketImpl } from './getWebSocketImpl';
 
-export function wdpSocket(ctx: WdpCtx, path: string, options?: { timeout?: number }): Promise<WebSocket> {
+export function wdpSocket(ctx: WdpCtx, path: string, options?: { timeout?: number }): Promise<any> {
   return new Promise((resolve, reject) => {
     let finished = false;
     const timeout = setTimeout(onTimeout, options?.timeout || 5000);
@@ -14,7 +15,7 @@ export function wdpSocket(ctx: WdpCtx, path: string, options?: { timeout?: numbe
     url.protocol = 'wss:';
 
     /// @ts-ignore
-    const socket = new (ctx.implementations?.WebSocket || globalThis.WebSocket)(url, [], { headers: { Origin: ctx.address } });
+    const socket = new (getWebSocketImpl(ctx))(url, [], { headers: { Origin: ctx.address } });
     socket.addEventListener('close', onClose);
     socket.addEventListener('error', onClose);
     socket.addEventListener('open', onOpen);

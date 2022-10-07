@@ -2,7 +2,6 @@
   "compilerOptions": {
     "outDir": "./dist",
     "lib": [
-      "DOM",
       "ES2021"
     ],
     "module": "ES2022",

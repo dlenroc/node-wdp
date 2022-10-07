@@ -3,8 +3,8 @@ export type WdpCtx = {
   username?: string;
   password?: string;
   implementations?: {
-    fetch?: typeof fetch;
-    FormData?: typeof FormData;
-    WebSocket?: typeof WebSocket;
+    fetch?: any;
+    FormData?: any;
+    WebSocket?: any;
   };
 };
