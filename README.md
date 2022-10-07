@@ -15,8 +15,8 @@ npm install @dlenroc/wdp --save
 All methods will be available after `Wdp` instance creation.
 
 ```typescript
-import { Wdp } from '@dlenroc/wdp';              // ESM
-// const { WDP } = await import('@dlenroc/wdp'); // CJS
+import { Wdp } from '@dlenroc/wdp';         // ESM
+// const { WDP } = require('@dlenroc/wdp'); // CJS
 
 const wdp = new Wdp({ address: ... });
 const packages = await wdp.getInstalledAppPackages()
@@ -28,8 +28,8 @@ console.log(packages);
 Individual methods can be imported and used separately, but you will have to pass the configuration as the first parameter.
 
 ```typescript
-import * as wdp from '@dlenroc/wdp';             // ESM
-// const wdp = await import('@dlenroc/wdp');     // CJS
+import * as wdp from '@dlenroc/wdp';        // ESM
+// const wdp = require('@dlenroc/wdp');     // CJS
 
 const ctx = { address: ... };
 const packages = await wdp.getInstalledAppPackages(ctx);

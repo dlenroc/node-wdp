@@ -5,8 +5,14 @@ export default {
   input: 'src/index.ts',
   output: [
     {
-      file: pkg.main,
+      file: pkg.exports.import,
       format: 'es',
+      exports: 'named',
+      sourcemap: true,
+    },
+    {
+      file: pkg.exports.require,
+      format: 'cjs',
       exports: 'named',
       sourcemap: true,
     },
