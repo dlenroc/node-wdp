@@ -84,6 +84,7 @@ export interface Wdp {
   getFile: OmitFirstArg<typeof methods['getFile']>;
   uploadFiles: OmitFirstArg<typeof methods['uploadFiles']>;
   getHttpMonitorState: OmitFirstArg<typeof methods['getHttpMonitorState']>;
+  getHttpMonitor: OmitFirstArg<typeof methods['getHttpMonitor']>;
   getLocationOverrideMode: OmitFirstArg<typeof methods['getLocationOverrideMode']>;
   setLocationOverrideMode: OmitFirstArg<typeof methods['setLocationOverrideMode']>;
   getLocation: OmitFirstArg<typeof methods['getLocation']>;
