@@ -10,7 +10,7 @@ export async function wdpRequest(ctx: WdpCtx, path: string, options: { method?: 
       ...(options.json && { 'Content-Type': 'application/json' }),
     },
     ...(options.method && { method: options.method }),
-    ...(options.json && { body: options.json }),
+    ...(options.json && { body: JSON.stringify(options.json) }),
     ...(options.form && { body: Object.entries(options.form).reduce((form, [name, value]) => (form.append(name, value, typeof value === 'object' ? name : undefined), form), new (getFormDataImpl(ctx))()) }),
   });
 

@@ -3,6 +3,8 @@ import type { WdpCtx } from '../WdpCtx.js';
 
 export type FiddlerTracingState = {
   IsProxyEnabled: boolean;
+  ProxyAddress?: string;
+  ProxyPort?: string;
 };
 
 export function getFiddlerTracingState(ctx: WdpCtx): Promise<FiddlerTracingState> {
