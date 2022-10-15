@@ -11,7 +11,7 @@ export async function wdpRequest(ctx: WdpCtx, path: string, options: { method?: 
     },
     ...(options.method && { method: options.method }),
     ...(options.json && { body: JSON.stringify(options.json) }),
-    ...(options.form && { body: Object.entries(options.form).reduce((form, [name, value]) => (form.append(name, value, typeof value === 'object' ? name : undefined), form), new (getFormDataImpl(ctx))()) }),
+    ...(options.form && { body: Object.entries(options.form).reduce((form, [name, value]) => (form.append(name, value, name), form), new (getFormDataImpl(ctx))()) }),
   });
 
   const isJson = !!response.headers.get('Content-Type')?.includes('json') == true && Number(response.headers.get('content-length')) > 0;

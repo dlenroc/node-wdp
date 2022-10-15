@@ -1,6 +1,6 @@
 {
   "name": "@dlenroc/wdp",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Client for Windows/Xbox Device Portal (WDP)",
   "author": "Corneliu Duplachi",
   "license": "MIT",

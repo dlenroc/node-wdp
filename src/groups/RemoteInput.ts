@@ -42,7 +42,7 @@ export async function disconnectPhysicalControllers(ctx: WdpCtx): Promise<void> 
 export async function getRemoteInput(ctx: WdpCtx, options?: { timeout?: number }): Promise<RemoteInput> {
   const socket = await wdpSocket(ctx, 'ext/remoteinput', options);
 
-  function send(data: Uint8Array) {
+  function send(data: ArrayBuffer) {
     if (socket.readyState !== socket.OPEN) {
       throw new WdpError({ Reason: 'Commands are no longer accepted', Code: 409 });
     }
@@ -65,31 +65,13 @@ export async function getRemoteInput(ctx: WdpCtx, options?: { timeout?: number }
   }
 
   function sendMouseEvent(action: number, x: number, y: number, delta: number) {
-    const buffer = new Uint8Array(15);
-    buffer[0] = 0x03;
-
-    const aBytes = new Uint8Array(new Uint16Array([action]).buffer);
-    buffer[1] = aBytes[1] || 0;
-    buffer[2] = aBytes[0] || 0;
-
-    const xBytes = new Uint8Array(new Uint32Array([Math.trunc((x * 65535) / 100)]).buffer);
-    buffer[3] = xBytes[3] || 0;
-    buffer[4] = xBytes[2] || 0;
-    buffer[5] = xBytes[1] || 0;
-    buffer[6] = xBytes[0] || 0;
-
-    const yBytes = new Uint8Array(new Uint32Array([Math.trunc((y * 65535) / 100)]).buffer);
-    buffer[7] = yBytes[3] || 0;
-    buffer[8] = yBytes[2] || 0;
-    buffer[9] = yBytes[1] || 0;
-    buffer[10] = yBytes[0] || 0;
-
-    const dBytes = new Uint8Array(new Uint32Array([delta]).buffer);
-    buffer[11] = dBytes[3] || 0;
-    buffer[12] = dBytes[2] || 0;
-    buffer[13] = dBytes[1] || 0;
-    buffer[14] = dBytes[0] || 0;
-
+    const buffer = new ArrayBuffer(15);
+    const dataView = new DataView(buffer);
+    dataView.setUint8(0, 0x03);
+    dataView.setUint16(1, action)
+    dataView.setUint32(3, Math.trunc((x * 65535) / 100))
+    dataView.setUint32(7, Math.trunc((y * 65535) / 100))
+    dataView.setUint32(11, delta);
     send(buffer);
   }
 
