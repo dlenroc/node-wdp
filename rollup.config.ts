@@ -18,6 +18,6 @@ export default {
     },
   ],
   plugins: [
-    typescript({ tsconfig: __dirname + '/tsconfig.json' }),
+    typescript(),
   ],
 };

@@ -21,6 +21,8 @@
     "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "importsNotUsedAsValues": "error"
+    "importsNotUsedAsValues": "error",
+    "downlevelIteration": true,
+    "resolveJsonModule": true
   }
 }
