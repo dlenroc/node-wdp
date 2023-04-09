@@ -1,16 +1,11 @@
 {
   "compilerOptions": {
     "outDir": "./dist",
-    "lib": [
-      "ES2021"
-    ],
+    "target": "ES2022",
     "module": "ES2022",
-    "target": "ES2021",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
     "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "strict": true,
     "allowUnusedLabels": false,
     "allowUnreachableCode": false,
     "exactOptionalPropertyTypes": true,
@@ -21,8 +16,10 @@
     "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "importsNotUsedAsValues": "error",
-    "downlevelIteration": true,
-    "resolveJsonModule": true
+    "verbatimModuleSyntax": true,
+    "checkJs": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
   }
 }

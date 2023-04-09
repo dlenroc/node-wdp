@@ -43,6 +43,10 @@ export async function getRemoteInput(ctx: WdpCtx, options?: { timeout?: number }
   const socket = await wdpSocket(ctx, 'ext/remoteinput', options);
 
   function send(data: ArrayBuffer) {
+    if (ctx.signal?.aborted) {
+      throw ctx.signal.reason;
+    }
+
     if (socket.readyState !== socket.OPEN) {
       throw new WdpError({ Reason: 'Commands are no longer accepted', Code: 409 });
     }

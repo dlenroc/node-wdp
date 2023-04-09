@@ -4,6 +4,11 @@ import { getWebSocketImpl } from './getWebSocketImpl';
 
 export function wdpSocket(ctx: WdpCtx, path: string, options?: { timeout?: number }): Promise<any> {
   return new Promise((resolve, reject) => {
+    const signal = ctx.signal;
+    if (signal?.aborted) {
+      reject(signal.reason);
+    }
+
     let finished = false;
     const timeout = setTimeout(onTimeout, options?.timeout || 5000);
 
@@ -19,30 +24,41 @@ export function wdpSocket(ctx: WdpCtx, path: string, options?: { timeout?: numbe
     socket.addEventListener('close', onClose);
     socket.addEventListener('error', onClose);
     socket.addEventListener('open', onOpen);
+    signal?.addEventListener('abort', onAbort);
 
-    function onClose() {
-      finished = true;
-      clearTimeout(timeout);
-      reject(new WdpError({ Code: 500, Reason: 'Connection closed unexpectedly' }));
+    function onAbort() {
+      reject(signal?.reason);
+      onClose();
     }
 
     function onTimeout() {
+      reject(new WdpError({ Code: 504, Reason: `Connection timeout exceeded` }));
+      onClose();
+    }
+
+    function onClose() {;
       finished = true;
+      clearTimeout(timeout);
       socket.removeEventListener('close', onClose);
       socket.removeEventListener('error', onClose);
-      reject(new WdpError({ Code: 504, Reason: `Connection timeout exceeded` }));
+      socket.removeEventListener('open', onOpen);
+      signal?.removeEventListener('abort', onAbort);
+
+      if (socket.readyState === socket.OPEN) {
+        socket.close();
+      }
+
+      reject(new WdpError({ Code: 500, Reason: 'Connection closed unexpectedly' }));
     }
 
     function onOpen() {
       if (finished) {
-        socket.close();
-        return;
+        return onClose();
       }
 
       finished = true;
       clearTimeout(timeout);
-      socket.removeEventListener('close', onClose);
-      socket.removeEventListener('error', onClose);
+      socket.removeEventListener('open', onOpen);
       resolve(socket);
     }
   });

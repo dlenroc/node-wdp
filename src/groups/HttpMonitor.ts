@@ -42,6 +42,10 @@ export async function getHttpMonitor(ctx: WdpCtx): Promise<HttpMonitor> {
   };
 
   function assertState(): void {
+    if (ctx.signal?.aborted) {
+      throw ctx.signal.reason;
+    }
+
     if (socket.readyState !== socket.OPEN) {
       throw new WdpError({ Reason: 'Commands are no longer accepted', Code: 409 });
     }

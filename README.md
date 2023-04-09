@@ -39,16 +39,21 @@ In this [Windows Device Portal (WDP)](https://learn.microsoft.com/en-us/windows/
 Regardless of which method you choose, the configuration will look the same.
 
 ```ts
-{
-  // required: WDP address
-  address: 'https://192.168.18.5:11443',
+type WdpCtx = {
+  // Target
+  address: string;
+  username?: string;
+  password?: string;
 
-  // optional: WDP username/password
-  username: 'username',
-  password: 'password',
+  // Abort signal
+  signal?: AbortSignal;
 
-  // optional: W3C compliant implementations
-  implementations: { fetch, FormData, WebSocket }
+  // W3C compliant implementations
+  implementations?: {
+    fetch?: any;
+    FormData?: any;
+    WebSocket?: any;
+  };
 }
 ```
 
